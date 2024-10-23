@@ -12,7 +12,7 @@ public class PropertiesInfo {
     private static final Logger LOGGER = LogManager.getLogger(PropertiesInfo.class.getSimpleName());
     private static final String CONFIG_PROPERTIES = PathUtils.buildPath("gradle.properties");
     private static final String BASE_API = "apiUrl";
-    private static final String PARTICULAR_PATH = PathUtils.buildPath("trello-core/src/main/resources/propertiesEnv/");
+    private static final String PARTICULAR_PATH = PathUtils.buildPath("todoLy-core/src/main/resources/propertiesEnv/");
     private static PropertiesInfo instance;
     private Properties properties;
 

@@ -9,7 +9,7 @@ allprojects {
     apply plugin: 'java'
     apply plugin: 'idea'
 
-    group = "com.trello"
+    group = "com.todoLy"
     version = "1.0"
     sourceCompatibility = 17
     targetCompatibility = 17

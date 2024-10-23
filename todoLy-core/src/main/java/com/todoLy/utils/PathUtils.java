@@ -9,8 +9,8 @@ import java.util.regex.Matcher;
  */
 public final class PathUtils {
     private static final String CURRENT_DIRECTORY = ".";
-    private static final String PATH_REGEX = ".+[/\\\\]trello-[\\w]{1,7}[/\\\\]\\.$";
-    private static final String REPLACE_REGEX = "trello-[\\w]{1,7}[/\\\\]\\.$";
+    private static final String PATH_REGEX = ".+[/\\\\]todoLy-[\\w]{1,7}[/\\\\]\\.$";
+    private static final String REPLACE_REGEX = "todoLy-[\\w]{1,7}[/\\\\]\\.$";
     private static final String PATH_WINDOWS_REGEX = "^A[A-Z]:\\\\.*";
     private static final String EMPTY_STRING = "";
     private static final String SLASH = "/";

@@ -43,11 +43,11 @@ bin/
 .idea
 /report/
 /reports/
-/trello-api/report/
-/trello-api/reports/
-/trello-api/allure-results/
+/todoLy-api/report/
+/todoLy-api/reports/
+/todoLy-api/allure-results/
 /allure-results/
 /logs/
-/trello-api/logs/
-/trello-api/allure-report/
-trello-core.log
+/todoLy-api/logs/
+/todoLy-api/allure-report/
+todoLy-core.log
