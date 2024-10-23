@@ -1,5 +1,5 @@
 rootProject.name = "API-Todo-Ly"
 include"todoLy-api"
 include"todoLy-core"
-//findProject(':trello-api:trello-core')?.name = 'trello-core'
+//findProject(':todoLy-api:todoLy-core')?.name = 'todoLy-core'
 

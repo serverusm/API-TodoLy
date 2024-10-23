@@ -26,7 +26,7 @@ gradle apiFeature
 
 **********************
 Report
-cd trello-api = reubicarse en la carpeta q contiene la carpeta "allure" o "allure-result"
+cd todoLy-api = reubicarse en la carpeta q contiene la carpeta "allure" o "allure-result"
 allure serve
 "allure-report" file
 allure generate
