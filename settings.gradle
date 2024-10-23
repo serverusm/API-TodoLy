@@ -1,5 +1,5 @@
-rootProject.name = "API-Aut-Trello"
-include"trello-api"
-include"trello-core"
+rootProject.name = "API-Todo-Ly"
+include"todoLy-api"
+include"todoLy-core"
 //findProject(':trello-api:trello-core')?.name = 'trello-core'
 
