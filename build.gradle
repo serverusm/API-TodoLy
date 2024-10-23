@@ -1,0 +1,33 @@
+plugins {
+    id("java")
+}
+
+allprojects {
+    repositories {
+        mavenCentral()
+    }
+    apply plugin: 'java'
+    apply plugin: 'idea'
+
+    group = "com.trello"
+    version = "1.0"
+    sourceCompatibility = 17
+    targetCompatibility = 17
+    dependencies {
+        // https://mvnrepository.com/artifact/org.testng/testng
+        testImplementation group: 'org.testng', name: 'testng', version: '7.10.2'
+        // https://mvnrepository.com/artifact/io.cucumber/cucumber-java
+        implementation group: 'io.cucumber', name: 'cucumber-java', version: '7.19.0'
+        // https://mvnrepository.com/artifact/io.cucumber/cucumber-testng
+        implementation group: 'io.cucumber', name: 'cucumber-testng', version: '7.19.0'
+        // https://mvnrepository.com/artifact/io.cucumber/cucumber-picocontainer
+        implementation group: 'io.cucumber', name: 'cucumber-picocontainer', version: '7.19.0'
+        // https://mvnrepository.com/artifact/io.qameta.allure/allure-cucumber7-jvm
+        implementation group: 'io.qameta.allure', name: 'allure-cucumber7-jvm', version: '2.29.0'
+
+    }
+}
+
+tasks.test {
+    useTestNG()
+}

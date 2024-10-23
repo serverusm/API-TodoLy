@@ -1,0 +1,5 @@
+rootProject.name = "API-Aut-Trello"
+include"trello-api"
+include"trello-core"
+//findProject(':trello-api:trello-core')?.name = 'trello-core'
+
