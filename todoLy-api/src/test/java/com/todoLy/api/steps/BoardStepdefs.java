@@ -3,7 +3,7 @@ package com.todoLy.api.steps;
 import com.todoLy.ApiRequestHandler;
 import com.todoLy.api.Context;
 import com.todoLy.client.RequestManager;
-import com.todoLy.endpoints.Boards;
+import com.todoLy.endpoints.Project;
 import com.todoLy.utils.PropertiesInfo;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
@@ -19,9 +19,9 @@ public class BoardStepdefs {
     private Response response;
     private String boardID;
     private Context context;
-    private Boards boards;
+    private Project boards;
 
-    public BoardStepdefs(Context context, Boards boards) {
+    public BoardStepdefs(Context context, Project boards) {
         this.context = context;
         this.boards = boards;
     }
@@ -32,8 +32,8 @@ public class BoardStepdefs {
         headers.put("Content-Type", "application/son");
 
         queryParams = new HashMap<String, String>();
-        queryParams.put("key", PropertiesInfo.getInstance().getApiKey());
-        queryParams.put("token", PropertiesInfo.getInstance().getApiToken());
+        queryParams.put("key", PropertiesInfo.getInstance().getAutUserName());
+        queryParams.put("token", PropertiesInfo.getInstance().getAutPassword());
         request = new ApiRequestHandler();
         request.setHeaders(headers);
         request.setQueryParam(queryParams);
@@ -41,7 +41,7 @@ public class BoardStepdefs {
 
     @When("I create a board with name {string}")
     public void iCreateABoardWithName(String boardName) {
-        response = this.boards.createBoard(boardName);
+        response = this.boards.createProject(boardName);
         context.setProperty("createBoardResponse", response.getBody().asPrettyString());
         context.setResponse(response);
         boardID = response.getBody().path("id");

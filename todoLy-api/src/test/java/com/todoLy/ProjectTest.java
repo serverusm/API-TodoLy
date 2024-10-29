@@ -1,0 +1,132 @@
+package com.todoLy;
+
+import com.todoLy.client.RequestManager;
+import com.todoLy.utils.JsonPath;
+import com.todoLy.utils.PropertiesInfo;
+import io.restassured.builder.ResponseSpecBuilder;
+import io.restassured.http.ContentType;
+import io.restassured.module.jsv.JsonSchemaValidator;
+import io.restassured.specification.ResponseSpecification;
+import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
+
+public class ProjectTest {
+  //    private RequestSpecification requestSpec;
+  private ResponseSpecification responseSpec;
+  private String autUserName;
+  private String autPassword;
+  private Map<String, String> headers;
+  private Map<String, Object> projectObject;
+  private Map<String, String> queryParams;
+  private String projectID;
+  private ApiRequestHandler request;
+
+  @BeforeClass
+  public void setUp() {
+    request = new ApiRequestHandler();
+    autUserName = PropertiesInfo.getInstance().getAutUserName();
+    autPassword = PropertiesInfo.getInstance().getAutPassword();
+
+    responseSpec = new ResponseSpecBuilder().expectStatusCode(200)
+          .expectContentType(ContentType.JSON)
+          .build();
+
+    request.setBasicAuth("", "");
+
+    headers = new HashMap<String, String>();
+    headers.put("Content-Type", "application/json");
+    request.setHeaders(headers);
+
+  }
+
+  @Test(priority = 1)
+  public void testCreateProjectSchemaValidation() {
+    String projectName = "API Project from JavaTest";
+    request.setEndpoint("/projects.json");
+    request.setProjectObject(projectName, 5);
+
+    System.out.println("Request Body: " + request.getBody());
+
+    var response = RequestManager.post(request);
+    System.out.println("Response Body: " + response.getBody().asPrettyString());
+
+    // Asegúrate de que la respuesta tiene un código de estado 200
+    Assert.assertEquals(response.statusCode(), 200);
+
+    // Verificar el campo Content en lugar de name si es el caso
+    String content = response.getBody().jsonPath().getString("Content");
+    Assert.assertEquals(content, projectName, "El nombre del proyecto no coincide.");
+  }
+
+  @Test(priority = 2)
+  public void UpdateProject() {
+    //AAA
+    //Arrange
+    InputStream updateProjectJsonSchema = getClass().getClassLoader()
+          .getResourceAsStream("schemas/updateProjectSchema.json");
+
+    String boarName = "API refactory Update";
+
+    request.setQueryParam("name", boarName);
+    request.setEndpoint(String.format("/projects/%s", projectID));
+    //Act
+    var response = RequestManager.put(request);
+    response
+          .then()
+          .spec(responseSpec)
+          .and()
+          .assertThat()
+          .body(JsonSchemaValidator.matchesJsonSchema(updateProjectJsonSchema))
+          .extract().response();
+
+    System.out.println(response.getBody().asPrettyString());
+    //Assert
+    Assert.assertEquals(response.statusCode(), 200);
+    String name = JsonPath.getResult(response.getBody().asPrettyString(), "$.name");
+    Assert.assertEquals(name, "API refactory Update");
+  }
+
+  @Test(priority = 3)
+  public void getProjectTest() {
+    //Given
+    InputStream getProjectJsonSchema = getClass().getClassLoader()
+          .getResourceAsStream("schemas/getProjectSchema.json");
+    queryParams.remove("name");
+    request.setEndpoint(String.format("/projects/%s", projectID));
+    var response = RequestManager.get(request);
+    //When
+    response
+          .then()
+          .spec(responseSpec)
+          .and()
+          .assertThat()
+          .body(JsonSchemaValidator.matchesJsonSchema(getProjectJsonSchema))
+          .extract().response();
+    System.out.println(response.getBody().asPrettyString());
+    //Then
+    String name = JsonPath.getResult(response.getBody().asPrettyString(), "$.name");
+    Assert.assertEquals(name, "API refactory Update");
+  }
+
+  @Test(priority = 4)
+  public void deleteProjectTest() {
+    InputStream deleteProjectJsonSchema = getClass().getClassLoader()
+          .getResourceAsStream("schemas/deleteProjectSchema.json");
+    request.setEndpoint(String.format("/projects/%s", projectID));
+    var response = RequestManager.delete(request)
+          .then()
+          .spec(responseSpec).and()
+          .assertThat()
+          .body(JsonSchemaValidator.matchesJsonSchema(deleteProjectJsonSchema))
+          .extract().response();
+
+    System.out.println("Project Delete");
+    System.out.println(response.getBody().asPrettyString());
+  }
+
+}
