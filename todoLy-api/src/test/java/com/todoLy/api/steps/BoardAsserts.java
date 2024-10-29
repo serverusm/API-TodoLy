@@ -30,7 +30,7 @@ public class BoardAsserts {
     @And("I validate createBoard response schema")
     public void iValidateCreateBoardResponseSchema() {
         InputStream createBoardJsonSchema = getClass().getClassLoader()
-                .getResourceAsStream("schemas/createBoardSchema.json");
+                .getResourceAsStream("schemas/createProjectSchema.json");
         context.getResponse()
                 .then()
                 .and()

@@ -30,8 +30,8 @@ public class ApiHooks {
         headers.put("Content-Type", "application/son");
 
         queryParams = new HashMap<String, String>();
-        queryParams.put("key", PropertiesInfo.getInstance().getApiKey());
-        queryParams.put("token", PropertiesInfo.getInstance().getApiToken());
+        queryParams.put("key", PropertiesInfo.getInstance().getAutUserName());
+        queryParams.put("token", PropertiesInfo.getInstance().getAutPassword());
         request = new ApiRequestHandler();
         request.setHeaders(headers);
         request.setQueryParam(queryParams);
@@ -42,9 +42,9 @@ public class ApiHooks {
         System.out.println("This is the before all hook.");
     }
 
-    @Before("@createBoard")
+    @Before("@createProjects")
     public void createBoardHook() {
-        var boardName = "API board from hook";
+        var boardName = "API Project from hook";
         request.setQueryParam("name", boardName);
         request.setEndpoint("/boards/");
 
@@ -57,7 +57,7 @@ public class ApiHooks {
         System.out.println(String.format("boardID: %s", boardID));
     }
 
-    @After("@deleteBoard")
+    @After("@deleteProjects")
     public void deleteBoardHook() {
         String boardId = context.getProperty("boardId");
         System.out.println(String.format("BoardId %s from hook", boardId));

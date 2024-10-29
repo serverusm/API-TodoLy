@@ -93,8 +93,8 @@ public class PropertiesInfo {
      *
      * @return api key
      */
-    public String getApiKey() {
-        return getProperty("apiKey");
+    public String getAutUserName() {
+        return getProperty("autUserName");
     }
 
     /**
@@ -102,8 +102,8 @@ public class PropertiesInfo {
      *
      * @return api token
      */
-    public String getApiToken() {
-        return getProperty("apiToken");
+    public String getAutPassword() {
+        return getProperty("autPassword");
     }
 
     /**
