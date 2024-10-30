@@ -154,6 +154,24 @@ public class ProjectTest {
 
   @Test(priority = 4)
   public void deleteProjectTest() {
+    // Aquí puedes usar projectID para eliminar el proyecto
+    String updatedProjectName = "Project Updated from java";
+
+    // Configura el endpoint para obtener el proyecto usando projectID
+    request.setEndpoint("/projects/" + projectID + ".json");
+
+    System.out.println("Request Body for DELETE: " + request.getBody());
+
+    var response = RequestManager.delete(request);
+    System.out.println("Response Body for DELETE: " + response.getBody().asPrettyString());
+
+    // Verificar el código de estado de la respuesta de actualización
+    Assert.assertEquals(response.statusCode(), 200);
+
+    // Verificar que el nombre se haya obtenido correctamente
+    String content = response.getBody().jsonPath().getString("Content");
+    Assert.assertEquals(content, updatedProjectName, "El nombre del proyecto no se puede eliminar correctamente.");
+
 //    InputStream deleteProjectJsonSchema = getClass().getClassLoader()
 //          .getResourceAsStream("schemas/deleteProjectSchema.json");
 //    request.setEndpoint(String.format("/projects/%s", projectID));
