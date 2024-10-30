@@ -80,6 +80,9 @@ public class ProjectTest {
 
   @Test(priority = 2)
   public void UpdateProject() {
+    //Path Schema
+    InputStream updateProjectJsonSchema = getClass().getClassLoader()
+          .getResourceAsStream("schemas/updateProjectSchema.json");
     // Use projectID Update project
     String updatedProjectName = "Project Updated from java";
 
@@ -91,6 +94,13 @@ public class ProjectTest {
 
     var response = RequestManager.put(request);
     System.out.println("Response Body for PUT-(UPDATE): " + response.getBody().asPrettyString());
+
+    // validation Create Schema project
+    response.then()
+          .spec(responseSpec).and()
+          .assertThat()
+          .body(JsonSchemaValidator.matchesJsonSchema(updateProjectJsonSchema))
+          .extract().response();
 
     // Verify status code update
     Assert.assertEquals(response.statusCode(), 200);
