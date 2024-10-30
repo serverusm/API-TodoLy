@@ -36,6 +36,8 @@ public class RequestManager {
           .log().all().when()
           .headers(apiRequest.getHeaders())
           .queryParams(apiRequest.getQueryParams())
+          .body(apiRequest.getBody())
+          .log().all()
           .put(apiRequest.getEndpoint());
   }
 
