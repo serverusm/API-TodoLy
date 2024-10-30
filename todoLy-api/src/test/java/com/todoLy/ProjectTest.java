@@ -80,6 +80,9 @@ public class ProjectTest {
 
   @Test(priority = 2)
   public void UpdateProject() {
+    //Path Schema
+    InputStream updateProjectJsonSchema = getClass().getClassLoader()
+          .getResourceAsStream("schemas/updateProjectSchema.json");
     // Use projectID Update project
     String updatedProjectName = "Project Updated from java";
 
@@ -91,6 +94,13 @@ public class ProjectTest {
 
     var response = RequestManager.put(request);
     System.out.println("Response Body for PUT-(UPDATE): " + response.getBody().asPrettyString());
+
+    // validation Project Schema
+    response.then()
+          .spec(responseSpec).and()
+          .assertThat()
+          .body(JsonSchemaValidator.matchesJsonSchema(updateProjectJsonSchema))
+          .extract().response();
 
     // Verify status code update
     Assert.assertEquals(response.statusCode(), 200);
@@ -106,10 +116,12 @@ public class ProjectTest {
 
   @Test(priority = 3)
   public void getProjectTest() {
-    // Aquí puedes usar projectID para obtener el proyecto
+    //Path Schema
+    InputStream getProjectJsonSchema = getClass().getClassLoader()
+          .getResourceAsStream("schemas/getProjectSchema.json");
+    // Used projectID get project
     String updatedProjectName = "Project Updated from java";
-
-    // Configura el endpoint para obtener el proyecto usando projectID
+    // endpoint config get projectID
     request.setEndpoint("/projects/" + projectID + ".json");
 
     System.out.println("Request Body for GET: " + request.getBody());
@@ -117,65 +129,49 @@ public class ProjectTest {
     var response = RequestManager.get(request);
     System.out.println("Response Body for GET: " + response.getBody().asPrettyString());
 
-    // Verificar el código de estado de la respuesta de actualización
+    // validation Project Schema
+    response.then()
+          .spec(responseSpec).and()
+          .assertThat()
+          .body(JsonSchemaValidator.matchesJsonSchema(getProjectJsonSchema))
+          .extract().response();
+
+    // Verify status code 200
     Assert.assertEquals(response.statusCode(), 200);
 
-    // Verificar que el nombre se haya obtenido correctamente
+    // Verify project name or Content get successfully
     String content = response.getBody().jsonPath().getString("Content");
     Assert.assertEquals(content, updatedProjectName, "El nombre del proyecto no se obtubo correctamente.");
-
-//    //Given
-//    InputStream getProjectJsonSchema = getClass().getClassLoader()
-//          .getResourceAsStream("schemas/getProjectSchema.json");
-//    queryParams.remove("name");
-//    request.setEndpoint(String.format("/projects/%s", projectID));
-//    var response = RequestManager.get(request);
-//    //When
-//    response
-//          .then()
-//          .spec(responseSpec)
-//          .and()
-//          .assertThat()
-//          .body(JsonSchemaValidator.matchesJsonSchema(getProjectJsonSchema))
-//          .extract().response();
-//    System.out.println(response.getBody().asPrettyString());
-//    //Then
-//    String name = JsonPath.getResult(response.getBody().asPrettyString(), "$.name");
-//    Assert.assertEquals(name, "API refactory Update");
   }
 
   @Test(priority = 4)
   public void deleteProjectTest() {
-    // Aquí puedes usar projectID para eliminar el proyecto
+    // Path Schema
+    InputStream deleteProjectJsonSchema = getClass().getClassLoader()
+          .getResourceAsStream("schemas/deleteProjectSchema.json");
+
     String updatedProjectName = "Project Updated from java";
-
-    // Configura el endpoint para obtener el proyecto usando projectID
+    // endpoint config get pject used projectID
     request.setEndpoint("/projects/" + projectID + ".json");
-
+    // Print URL Request
     System.out.println("Request Body for DELETE: " + request.getBody());
 
     var response = RequestManager.delete(request);
     System.out.println("Response Body for DELETE: " + response.getBody().asPrettyString());
 
-    // Verificar el código de estado de la respuesta de actualización
+    // validation Project Schema
+    response.then()
+          .spec(responseSpec).and()
+          .assertThat()
+          .body(JsonSchemaValidator.matchesJsonSchema(deleteProjectJsonSchema))
+          .extract().response();
+
+    // Verify status code 200
     Assert.assertEquals(response.statusCode(), 200);
 
-    // Verificar que el nombre se haya obtenido correctamente
+    // Verify get project name or Content
     String content = response.getBody().jsonPath().getString("Content");
     Assert.assertEquals(content, updatedProjectName, "El nombre del proyecto no se puede eliminar correctamente.");
-
-//    InputStream deleteProjectJsonSchema = getClass().getClassLoader()
-//          .getResourceAsStream("schemas/deleteProjectSchema.json");
-//    request.setEndpoint(String.format("/projects/%s", projectID));
-//    var response = RequestManager.delete(request)
-//          .then()
-//          .spec(responseSpec).and()
-//          .assertThat()
-//          .body(JsonSchemaValidator.matchesJsonSchema(deleteProjectJsonSchema))
-//          .extract().response();
-//
-//    System.out.println("Project Delete");
-//    System.out.println(response.getBody().asPrettyString());
   }
 
 }
