@@ -3,6 +3,7 @@ package com.todoLy;
 import com.todoLy.client.RequestManager;
 import com.todoLy.utils.JsonPath;
 import com.todoLy.utils.PropertiesInfo;
+import io.cucumber.cienvironment.internal.com.eclipsesource.json.Json;
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.module.jsv.JsonSchemaValidator;
@@ -16,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ProjectTest {
-  //    private RequestSpecification requestSpec;
+  //  private RequestSpecification requestSpec;
   private ResponseSpecification responseSpec;
   private String autUserName;
   private String autPassword;
@@ -46,7 +47,10 @@ public class ProjectTest {
 
   @Test(priority = 1)
   public void testCreateProjectSchemaValidation() {
-    String projectName = "API Project from JavaTest";
+    InputStream createProjectJsonSchema = getClass().getClassLoader()
+          .getResourceAsStream("schemas/createProjectSchema.json");
+
+    String projectName = "Schema Project from JavaTest";
     request.setEndpoint("/projects.json");
     request.setProjectObject(projectName, 3);
 
@@ -55,24 +59,31 @@ public class ProjectTest {
     var response = RequestManager.post(request);
     System.out.println("Response Body POST-(CREATE): " + response.getBody().asPrettyString());
 
-    // Asegúrate de que la respuesta tiene un código de estado 200
+    // validation Create Schema project
+    response.then()
+          .spec(responseSpec).and()
+          .assertThat()
+          .body(JsonSchemaValidator.matchesJsonSchema(createProjectJsonSchema))
+          .extract().response();
+
+    // Response status 200
     Assert.assertEquals(response.statusCode(), 200);
 
-    // Verificar el campo Content en lugar de name si es el caso
+    // Verify Content
     String content = response.getBody().jsonPath().getString("Content");
     Assert.assertEquals(content, projectName, "El nombre del proyecto no coincide.");
 
-    // Extraer el ID del proyecto y almacenarlo en projectID
+    // Get Project ID and store in projectID
     projectID = response.getBody().jsonPath().getString("Id");
     System.out.println("Project ID: " + projectID);
   }
 
   @Test(priority = 2)
   public void UpdateProject() {
-    // Aquí puedes usar projectID para actualizar el proyecto
+    // Use projectID Update project
     String updatedProjectName = "Project Updated from java";
 
-    // Configura el endpoint para actualizar el proyecto usando projectID
+    // endpoint config used projectID update project
     request.setEndpoint("/projects/" + projectID + ".json");
     request.setProjectObject(updatedProjectName, 12);
 
@@ -81,35 +92,16 @@ public class ProjectTest {
     var response = RequestManager.put(request);
     System.out.println("Response Body for PUT-(UPDATE): " + response.getBody().asPrettyString());
 
-    // Verificar el código de estado de la respuesta de actualización
+    // Verify status code update
     Assert.assertEquals(response.statusCode(), 200);
 
-    // Verificar que el nombre se haya actualizado correctamente
+    // Verify name update successfully
+    String nameContent = JsonPath.getResult(response.getBody().asPrettyString(), "$.Content");
+    System.out.println(String.format("Project Updated from java: %s", nameContent));
+    Assert.assertEquals(nameContent, updatedProjectName);
+
     String content = response.getBody().jsonPath().getString("Content");
     Assert.assertEquals(content, updatedProjectName, "El nombre del proyecto no se actualizó correctamente.");
-
-//    InputStream updateProjectJsonSchema = getClass().getClassLoader()
-//          .getResourceAsStream("schemas/updateProjectSchema.json");
-//
-//    String boarName = "API refactory Update";
-//
-//    request.setQueryParam("name", boarName);
-//    request.setEndpoint(String.format("/projects/%s", projectID));
-//    //Act
-//    var response = RequestManager.put(request);
-//    response
-//          .then()
-//          .spec(responseSpec)
-//          .and()
-//          .assertThat()
-//          .body(JsonSchemaValidator.matchesJsonSchema(updateProjectJsonSchema))
-//          .extract().response();
-//
-//    System.out.println(response.getBody().asPrettyString());
-//    //Assert
-//    Assert.assertEquals(response.statusCode(), 200);
-//    String name = JsonPath.getResult(response.getBody().asPrettyString(), "$.name");
-//    Assert.assertEquals(name, "API refactory Update");
   }
 
   @Test(priority = 3)
