@@ -53,7 +53,7 @@ public class ProjectTest {
     System.out.println("Request Body: " + request.getBody());
 
     var response = RequestManager.post(request);
-    System.out.println("Response Body: " + response.getBody().asPrettyString());
+    System.out.println("Response Body POST-(CREATE): " + response.getBody().asPrettyString());
 
     // Asegúrate de que la respuesta tiene un código de estado 200
     Assert.assertEquals(response.statusCode(), 200);
@@ -74,12 +74,12 @@ public class ProjectTest {
 
     // Configura el endpoint para actualizar el proyecto usando projectID
     request.setEndpoint("/projects/" + projectID + ".json");
-    request.setProjectObject(updatedProjectName, 1);
+    request.setProjectObject(updatedProjectName, 12);
 
-    System.out.println("Request Body for Update: " + request.getBody());
+    System.out.println("Request Body for PUT-(UPDATE): " + request.getBody());
 
     var response = RequestManager.put(request);
-    System.out.println("Response Body for Update: " + response.getBody().asPrettyString());
+    System.out.println("Response Body for PUT-(UPDATE): " + response.getBody().asPrettyString());
 
     // Verificar el código de estado de la respuesta de actualización
     Assert.assertEquals(response.statusCode(), 200);
@@ -114,6 +114,24 @@ public class ProjectTest {
 
   @Test(priority = 3)
   public void getProjectTest() {
+    // Aquí puedes usar projectID para obtener el proyecto
+    String updatedProjectName = "Project Updated from java";
+
+    // Configura el endpoint para obtener el proyecto usando projectID
+    request.setEndpoint("/projects/" + projectID + ".json");
+
+    System.out.println("Request Body for GET: " + request.getBody());
+
+    var response = RequestManager.get(request);
+    System.out.println("Response Body for GET: " + response.getBody().asPrettyString());
+
+    // Verificar el código de estado de la respuesta de actualización
+    Assert.assertEquals(response.statusCode(), 200);
+
+    // Verificar que el nombre se haya obtenido correctamente
+    String content = response.getBody().jsonPath().getString("Content");
+    Assert.assertEquals(content, updatedProjectName, "El nombre del proyecto no se obtubo correctamente.");
+
 //    //Given
 //    InputStream getProjectJsonSchema = getClass().getClassLoader()
 //          .getResourceAsStream("schemas/getProjectSchema.json");
