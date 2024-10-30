@@ -21,8 +21,8 @@ public class Project {
 
         // Configurar los parámetros de autenticación
         queryParams = new HashMap<>();
-        queryParams.put("UserName", "sergiomamani2014@gmail.com");
-        queryParams.put("Password", "Krattosmamani9/");
+        queryParams.put("UserName", "UserName");
+        queryParams.put("Password", "Password/");
 
         // Configurar el cuerpo del proyecto (projectObject)
         projectObject = new HashMap<>();

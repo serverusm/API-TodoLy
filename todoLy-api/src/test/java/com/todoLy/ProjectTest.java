@@ -36,7 +36,7 @@ public class ProjectTest {
           .expectContentType(ContentType.JSON)
           .build();
 
-    request.setBasicAuth("user", "password");
+    request.setBasicAuth(autUserName, autPassword);
 
     headers = new HashMap<String, String>();
     headers.put("Content-Type", "application/json");
