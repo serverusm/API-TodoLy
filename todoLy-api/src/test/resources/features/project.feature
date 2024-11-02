@@ -19,8 +19,8 @@ Feature: Todo-Ly CRUD-Projects
 
   @Project_003 @createProjects @deleteProjects
   Scenario: Update a project
-    When I update board name with "API Board update name"
-    Then I should see field "name" with value "API Board update name"
+    When I update project name with "Project Update from Cucumber"
+    Then I should see field "Content" with value "Project Update from Cucumber"
 
   @Project_003 @createProjects
   Scenario: Delete a project

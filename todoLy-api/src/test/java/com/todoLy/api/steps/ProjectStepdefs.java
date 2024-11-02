@@ -70,17 +70,17 @@ public class ProjectStepdefs {
         context.setResponse(response);
     }
 
-    @When("I update board name with {string}")
-    public void iUpdateBoardNameWith(String newBoardName) {
-        request.setQueryParam("name", newBoardName);
-        request.setEndpoint(String.format("/boards/%s", context.getProperty("boardId")));
+    @When("I update project name with {string}")
+    public void iUpdateProjectNameWith(String newProjectName) {
+        request.setProjectObject(newProjectName, 12);
+        request.setEndpoint(String.format("/projects/%s", context.getProperty("projectId") + ".json"));
 
         var response = RequestManager.put(request);
         context.setResponse(response);
     }
 
     @When("I delete a board with {string}")
-    public void iDileteABoardWith(String boardId) {
+    public void iDleteABoardWith(String boardId) {
         this.projectID = boardId.contains("boardId") ? context.getProperty("boardId") : boardId;
         request.setEndpoint(String.format("/boards/%s", this.projectID));
         var response = RequestManager.delete(request);

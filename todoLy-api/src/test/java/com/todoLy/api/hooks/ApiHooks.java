@@ -47,16 +47,16 @@ public class ApiHooks {
 
     @Before("@createProjects")
     public void createProjectHook() {
-        String projectName = "Schema Project from JavaTest";
+        String projectName = "Project from Hooks Cucumber";
         request.setEndpoint("/projects.json");
         request.setProjectObject(projectName, 3);
 
         //Act
         Response response = RequestManager.post(request);
 
-        context.setProperty("createBoardResponse", response.getBody().asPrettyString());
+        context.setProperty("createProjectResponse", response.getBody().asPrettyString());
         context.setResponse(response);
-        String projectID = response.getBody().path("Id");
+        String projectID = response.getBody().path("Id").toString();
         context.setProperty("projectId", projectID);
         System.out.println(String.format("projectID: %s", projectID));
     }
