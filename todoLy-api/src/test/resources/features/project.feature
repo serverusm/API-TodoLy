@@ -4,25 +4,25 @@ Feature: Todo-Ly CRUD-Projects
   Background: Setup ApiRequestHandler
     Given I set apiRequestHandler with proper credential
 
-  @Project_001 @deleteProject
+  @Project_001 @deleteProjects
   Scenario: Crete project
     When I create a project with name "SergioProject from cucumber"
     Then I should see field "Content" with value "SergioProject from cucumber"
     And I validate createProject response schema
 
-  @Project_002 @deleteProject
+  @Project_002 @deleteProjects
   Scenario: Get a project
-    Given I create a board with name "Get Boards API cucumber"
-    And I should see field "name" with value "Get Boards API cucumber"
-    When I get a board with "boardId"
-    Then I should see field "name" with value "Get Boards API cucumber"
+    Given I create a project with name "GetProject from cucumber"
+    And I should see field "Content" with value "GetProject from cucumber"
+    When I get a project with "projectId"
+    Then I should see field "Content" with value "GetProject from cucumber"
 
-  @Project_003 @createProject @deleteProject
+  @Project_003 @createProjects @deleteProjects
   Scenario: Update a project
     When I update board name with "API Board update name"
     Then I should see field "name" with value "API Board update name"
 
-  @Project_003 @createProject
+  @Project_003 @createProjects
   Scenario: Delete a project
     When I delete a board with "boardId"
   Then I validate that status code of response is 200

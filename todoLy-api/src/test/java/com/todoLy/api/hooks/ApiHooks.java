@@ -63,9 +63,9 @@ public class ApiHooks {
 
     @After("@deleteProjects")
     public void deleteBoardHook() {
-        String boardId = context.getProperty("boardId");
-        System.out.println(String.format("BoardId %s from hook", boardId));
-        request.setEndpoint(String.format("/boards/%s", boardId));
+        String projectId = context.getProperty("projectId");
+        System.out.println(String.format("ProjectId %s from hook", projectId));
+        request.setEndpoint(String.format("/projects/%s", projectId + ".json"));
         var response = RequestManager.delete(request)
                 .then()
                 .spec(responseSpec).extract().response();

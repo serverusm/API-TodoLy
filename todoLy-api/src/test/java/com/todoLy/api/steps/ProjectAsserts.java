@@ -9,10 +9,10 @@ import org.testng.Assert;
 
 import java.io.InputStream;
 
-public class BoardAsserts {
+public class ProjectAsserts {
     private Context context;
 
-    public BoardAsserts(Context context) {
+    public ProjectAsserts(Context context) {
         this.context = context;
     }
 
@@ -20,11 +20,11 @@ public class BoardAsserts {
     public void iShouldSeeFieldWithValue(String field, String value) {
 //        String actualResult = JsonPath.getResult(context.getProperty("createBoardResponse"), String.format("$.%s", field));
         String getResponse = context.getResponse().getBody().asPrettyString();
-        System.out.println("---------------getResponse");
+        System.out.println("---------------getResponse Result");
         System.out.println(getResponse);
         String actualResult = JsonPath.getResult(context.getResponse().getBody().asPrettyString(), String.format("$.%s", field));
-        System.out.println(String.format("New board name: %s", actualResult));
-        Assert.assertEquals(actualResult, value, String.format("board name does not match with expected value: %s", value));
+        System.out.println(String.format("New project name: %s", actualResult));
+        Assert.assertEquals(actualResult, value, String.format("Project name does not match with expected value: %s", value));
     }
 
     @And("I validate createProject response schema")

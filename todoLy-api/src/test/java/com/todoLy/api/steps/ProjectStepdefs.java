@@ -15,7 +15,7 @@ import io.restassured.specification.ResponseSpecification;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BoardStepdefs {
+public class ProjectStepdefs {
     private ResponseSpecification responseSpec;
     private Map<String, String> headers;
     private Map<String, String> queryParams;
@@ -29,7 +29,7 @@ public class BoardStepdefs {
     private String Id;
 
 
-    public BoardStepdefs(Context context, Project projects) {
+    public ProjectStepdefs(Context context, Project projects) {
         this.context = context;
         this.projects = projects;
     }
@@ -61,11 +61,11 @@ public class BoardStepdefs {
         context.setProperty("projectId", projectID);
     }
 
-    @When("I get a board with {string}")
-    public void iGetABoardWith(String boardID) { //Method Get
+    @When("I get a project with {string}")
+    public void iGetAProjectWith(String projectID) { //Method Get
         request.getQueryParams().remove("name");
-        this.projectID = boardID.contains("boardId") ? context.getProperty("boardId") : boardID;
-        request.setEndpoint("/boards/".concat(this.projectID));
+        this.projectID = projectID.contains("projectId") ? context.getProperty("projectId") : projectID;
+        request.setEndpoint("/projects/".concat(this.projectID + ".json"));
         response = RequestManager.get(request);
         context.setResponse(response);
     }
