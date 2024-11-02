@@ -27,15 +27,15 @@ public class BoardAsserts {
         Assert.assertEquals(actualResult, value, String.format("board name does not match with expected value: %s", value));
     }
 
-    @And("I validate createBoard response schema")
-    public void iValidateCreateBoardResponseSchema() {
-        InputStream createBoardJsonSchema = getClass().getClassLoader()
+    @And("I validate createProject response schema")
+    public void iValidateCreateProjectResponseSchema() {
+        InputStream createProjectJsonSchema = getClass().getClassLoader()
                 .getResourceAsStream("schemas/createProjectSchema.json");
         context.getResponse()
                 .then()
                 .and()
                 .assertThat()
-                .body(JsonSchemaValidator.matchesJsonSchema(createBoardJsonSchema))
+                .body(JsonSchemaValidator.matchesJsonSchema(createProjectJsonSchema))
                 .extract().response();
     }
 

@@ -20,21 +20,24 @@ public class ApiHooks {
     private ApiRequestHandler request;
     private ResponseSpecification responseSpec;
     private Context context;
+    private String autUserName;
+    private String autPassword;
 
     public ApiHooks(Context context) {
         this.context = context;
-        responseSpec = new ResponseSpecBuilder().expectStatusCode(200)
-                .expectContentType(ContentType.JSON)
-                .build();
-        headers = new HashMap<String, String>();
-        headers.put("Content-Type", "application/son");
-
-        queryParams = new HashMap<String, String>();
-        queryParams.put("key", PropertiesInfo.getInstance().getAutUserName());
-        queryParams.put("token", PropertiesInfo.getInstance().getAutPassword());
         request = new ApiRequestHandler();
+        autUserName = PropertiesInfo.getInstance().getAutUserName();
+        autPassword = PropertiesInfo.getInstance().getAutPassword();
+
+        responseSpec = new ResponseSpecBuilder().expectStatusCode(200)
+              .expectContentType(ContentType.JSON)
+              .build();
+
+        request.setBasicAuth(autUserName, autPassword);
+
+        headers = new HashMap<String, String>();
+        headers.put("Content-Type", "application/json");
         request.setHeaders(headers);
-        request.setQueryParam(queryParams);
     }
 
     @Before()
@@ -43,18 +46,19 @@ public class ApiHooks {
     }
 
     @Before("@createProjects")
-    public void createBoardHook() {
-        var boardName = "API Project from hook";
-        request.setQueryParam("name", boardName);
-        request.setEndpoint("/boards/");
+    public void createProjectHook() {
+        String projectName = "Schema Project from JavaTest";
+        request.setEndpoint("/projects.json");
+        request.setProjectObject(projectName, 3);
 
         //Act
         Response response = RequestManager.post(request);
+
         context.setProperty("createBoardResponse", response.getBody().asPrettyString());
         context.setResponse(response);
-        String boardID = response.getBody().path("id");
-        context.setProperty("boardId", boardID);
-        System.out.println(String.format("boardID: %s", boardID));
+        String projectID = response.getBody().path("Id");
+        context.setProperty("projectId", projectID);
+        System.out.println(String.format("projectID: %s", projectID));
     }
 
     @After("@deleteProjects")
