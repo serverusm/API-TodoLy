@@ -22,8 +22,8 @@ Feature: Todo-Ly CRUD-Projects
     When I update project name with "Project Update from Cucumber"
     Then I should see field "Content" with value "Project Update from Cucumber"
 
-  @Project_003 @createProjects
+  @Project_004 @createProjects
   Scenario: Delete a project
-    When I delete a board with "boardId"
+    When I delete a project with "projectId"
   Then I validate that status code of response is 200
 #    Then I should see response body as "{\n\"_value\": null\n}"

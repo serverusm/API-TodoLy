@@ -79,10 +79,10 @@ public class ProjectStepdefs {
         context.setResponse(response);
     }
 
-    @When("I delete a board with {string}")
-    public void iDleteABoardWith(String boardId) {
-        this.projectID = boardId.contains("boardId") ? context.getProperty("boardId") : boardId;
-        request.setEndpoint(String.format("/boards/%s", this.projectID));
+    @When("I delete a project with {string}")
+    public void iDeleteAProjectWith(String projectId) {
+        this.projectID = projectId.contains("projectId") ? context.getProperty("projectId") : projectId;
+        request.setEndpoint(String.format("/projects/%s", this.projectID) + ".json");
         var response = RequestManager.delete(request);
         context.setResponse(response);
     }
