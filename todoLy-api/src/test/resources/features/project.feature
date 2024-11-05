@@ -6,7 +6,11 @@ Feature: Todo-Ly CRUD-Projects
 
   @Project_001 @deleteProjects
   Scenario: Crete project
-    When I create a project with name "SergioProject from cucumber"
+#    When I create a project with name "SergioProject from cucumber"
+    When I create a project with:
+      """
+      { "Content":"SergioProject from cucumber", "Icon":8 }
+      """
     Then I should see field "Content" with value "SergioProject from cucumber"
     And I validate createProject response schema
 
@@ -25,5 +29,5 @@ Feature: Todo-Ly CRUD-Projects
   @Project_004 @createProjects
   Scenario: Delete a project
     When I delete a project with "projectId"
-  Then I validate that status code of response is 200
+    Then I validate that status code of response is 200
 #    Then I should see response body as "{\n\"_value\": null\n}"

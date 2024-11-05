@@ -1,5 +1,7 @@
 package com.todoLy.endpoints;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.todoLy.ApiRequestHandler;
 import com.todoLy.client.RequestManager;
 import com.todoLy.utils.PropertiesInfo;
@@ -38,12 +40,18 @@ public class Project {
         headers.put("Content-Type", "application/json");
         request.setHeaders(headers);
     }
-    public Response createProject(String boardName) {
+    public Response createProject(String projectName) {
         request.setEndpoint("/projects.json");
-        request.setProjectObject(boardName, 10);
+        request.setProjectObject(projectName, 10);
 
-        // Agregar el cuerpo de projectObject a la solicitud
-//        request.setBody(projectObject);
+        return RequestManager.post(request);
+    }
+    public Response projectCreate(String valueJson) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String, Object> valueData = mapper.readValue(valueJson, Map.class);
+
+        request.setEndpoint("/projects.json");
+        request.setBody(valueData);
 
         return RequestManager.post(request);
     }

@@ -1,5 +1,6 @@
 package com.todoLy.api.steps;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.todoLy.ApiRequestHandler;
 import com.todoLy.api.Context;
 import com.todoLy.client.RequestManager;
@@ -18,7 +19,7 @@ import java.util.Map;
 public class ProjectStepdefs {
     private ResponseSpecification responseSpec;
     private Map<String, String> headers;
-    private Map<String, String> queryParams;
+//    private Map<String, String> mapper;
     private ApiRequestHandler request;
     private Response response;
     private String projectID;
@@ -49,6 +50,16 @@ public class ProjectStepdefs {
         headers = new HashMap<String, String>();
         headers.put("Content-Type", "application/json");
         request.setHeaders(headers);
+    }
+
+    @When("I create a project with:$")
+    public void iCreateAProjectWith(String valueJson) throws JsonProcessingException {
+        response = this.projects.projectCreate(valueJson);
+        context.setProperty("createProjectResponse", response.getBody().asPrettyString());
+        context.setResponse(response);
+        projectID = response.getBody().path("Id").toString();
+        System.out.println(String.format("projectID: %s", projectID));
+        context.setProperty("projectId", projectID);
     }
 
     @When("I create a project with name {string}")
