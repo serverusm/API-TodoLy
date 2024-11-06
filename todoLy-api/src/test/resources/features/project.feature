@@ -3,13 +3,14 @@ Feature: Todo-Ly CRUD-Projects
 
   Background: Setup ApiRequestHandler
     Given I set apiRequestHandler with proper credential
+#    Given I set auth "sergiomamani2014@gmail.com" and "Krattosmamani9/"
 
-  @Project_001 @deleteProjects
+  @Project_001
   Scenario: Crete project
 #    When I create a project with name "SergioProject from cucumber"
     When I create a project with:
       """
-      { "Content":"SergioProject from cucumber", "Icon":8 }
+      { "Content":"SergioProject from cucumber", "Icon":9 }
       """
     Then I should see field "Content" with value "SergioProject from cucumber"
     And I validate createProject response schema
