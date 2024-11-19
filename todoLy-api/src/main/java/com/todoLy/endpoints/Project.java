@@ -47,11 +47,11 @@ public class Project {
         return RequestManager.post(request);
     }
     public Response projectCreate(String valueJson) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        Map<String, Object> valueData = mapper.readValue(valueJson, Map.class);
+//        ObjectMapper mapper = new ObjectMapper();
+//        Map<String, Object> valueData = mapper.readValue(valueJson, Map.class);
 
         request.setEndpoint("/projects.json");
-        request.setBody(valueData);
+        request.setBody(valueJson);
 
         return RequestManager.post(request);
     }

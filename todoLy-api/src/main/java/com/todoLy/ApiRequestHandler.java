@@ -7,7 +7,8 @@ import java.util.Map;
 public class ApiRequestHandler {
   private Map<String, String> headers;
   private Map<String, String> queryParams;
-  private Map<String, Object> body;
+//  private Map<String, Object> body;
+  private String body;
   private String baseUrl;
   private Map<String, Object> projectData;
   private String endpoint;
@@ -15,7 +16,7 @@ public class ApiRequestHandler {
   public ApiRequestHandler() {
     headers = new HashMap<>();
     queryParams = new HashMap<>();
-    body = new HashMap<>();
+//    body = new HashMap<>();
     projectData = new HashMap<>();
   }
 
@@ -55,20 +56,27 @@ public class ApiRequestHandler {
     this.endpoint = endpoint;
   }
 
-  public void setBody(Map<String, Object> body) {
-    this.body = body;
-  }
+//  public void setBody(Map<String, Object> body) {
+//    this.body = body;
+//  }
 
-  public Map<String, Object> getBody() {
+  public void setBody(String bodyFormat) {
+    this.body = bodyFormat;
+  }
+  public String getBody() {
     return body;
   }
 
+//  public Map<String, Object> getBody() {
+//    return body;
+//  }
+
   // método para establecer el cuerpo del proyecto
-  public void setProjectObject(String content, int icon) {
-    projectData.put("Content", content);
-    projectData.put("Icon", icon);
-    setBody(projectData);
-  }
+//  public void setProjectObject(String content, int icon) {
+//    projectData.put("Content", content);
+//    projectData.put("Icon", icon);
+//    setBody(projectData);
+//  }
 
   // método para agregar autenticación básica
   public void setBasicAuth(String username, String password) {

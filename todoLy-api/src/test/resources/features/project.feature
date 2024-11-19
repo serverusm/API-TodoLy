@@ -10,7 +10,7 @@ Feature: Todo-Ly CRUD-Projects
 #    When I create a project with name "SergioProject from cucumber"
     When I create a project with:
       """
-      { "Content":"SergioProject from cucumber", "Icon":9 }
+      { "Content":"SergioProject from cucumber", "Icon":10 }
       """
     Then I should see field "Content" with value "SergioProject from cucumber"
     And I validate createProject response schema
