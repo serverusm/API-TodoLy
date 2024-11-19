@@ -3,10 +3,15 @@ Feature: Todo-Ly CRUD-Projects
 
   Background: Setup ApiRequestHandler
     Given I set apiRequestHandler with proper credential
+#    Given I set auth "sergiomamani2014@gmail.com" and "Krattosmamani9/"
 
-  @Project_001 @deleteProjects
+  @Project_001
   Scenario: Crete project
-    When I create a project with name "SergioProject from cucumber"
+#    When I create a project with name "SergioProject from cucumber"
+    When I create a project with:
+      """
+      { "Content":"SergioProject from cucumber", "Icon":10 }
+      """
     Then I should see field "Content" with value "SergioProject from cucumber"
     And I validate createProject response schema
 
@@ -25,5 +30,5 @@ Feature: Todo-Ly CRUD-Projects
   @Project_004 @createProjects
   Scenario: Delete a project
     When I delete a project with "projectId"
-  Then I validate that status code of response is 200
+    Then I validate that status code of response is 200
 #    Then I should see response body as "{\n\"_value\": null\n}"
