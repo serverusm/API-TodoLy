@@ -37,28 +37,42 @@ public class ProjectStepdefs {
 
   @Given("I set apiRequestHandler with proper credential") //Background
   public void iSetApiRequestHandlerWithProperCredential() {
-        request = new ApiRequestHandler();
-        autUserName = PropertiesInfo.getInstance().getAutUserName();
-        autPassword = PropertiesInfo.getInstance().getAutPassword();
+    request = new ApiRequestHandler();
+    autUserName = PropertiesInfo.getInstance().getAutUserName();
+    autPassword = PropertiesInfo.getInstance().getAutPassword();
 
-        responseSpec = new ResponseSpecBuilder().expectStatusCode(200)
-              .expectContentType(ContentType.JSON)
-              .build();
+    responseSpec = new ResponseSpecBuilder().expectStatusCode(200)
+          .expectContentType(ContentType.JSON)
+          .build();
 
-        request.setBasicAuth(autUserName, autPassword);
+    request.setBasicAuth(autUserName, autPassword);
 
-        headers = new HashMap<String, String>();
-        headers.put("Content-Type", "application/json");
-        request.setHeaders(headers);
+    headers = new HashMap<String, String>();
+    headers.put("Content-Type", "application/json");
+    request.setHeaders(headers);
   }
 
   @Given("I set auth {string} and {string}")
   public void iSetAuthAnd(String user, String pw) {
+    request = new ApiRequestHandler();
+
+    responseSpec = new ResponseSpecBuilder().expectStatusCode(200)
+          .expectContentType(ContentType.JSON)
+          .build();
+
+    request.setBasicAuth(user, pw);
+
+    headers = new HashMap<String, String>();
+    headers.put("Content-Type", "application/json");
+    request.setHeaders(headers);
   }
 
   @When("I create a project with:$")
   public void iCreateAProjectWith(String valueJson) throws JsonProcessingException {
-    response = this.projects.projectCreate(valueJson);
+//    response = this.projects.projectCreate(valueJson);
+    request.setEndpoint("/projects.json");
+    request.setBody(valueJson);
+    response = RequestManager.post(request);
     context.setProperty("createProjectResponse", response.getBody().asPrettyString());
     context.setResponse(response);
     context.setProperty("projectId", (response.getBody().path("Id").toString()));
