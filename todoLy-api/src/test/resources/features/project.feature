@@ -2,17 +2,18 @@
 Feature: Todo-Ly CRUD-Projects
 
   Background: Setup ApiRequestHandler
-    Given I set apiRequestHandler with proper credential
-#    Given I set auth "sergiomamani2014@gmail.com" and "Krattosmamani9/"
+#    Given I set apiRequestHandler with proper credential
+    Given I set auth "sergiomamani2014@gmail.com" and "Krattosmamani9/"
 
   @Project_001
   Scenario: Crete project
 #    When I create a project with name "SergioProject from cucumber"
     When I create a project with:
       """
-      { "Content":"SergioProject from cucumber", "Icon":10 }
+      { "Content":"SergioProject from cucumber", "Icon":5 }
       """
     Then I should see field "Content" with value "SergioProject from cucumber"
+    Then I validate that status code of response is 200
     And I validate createProject response schema
 
   @Project_002 @deleteProjects

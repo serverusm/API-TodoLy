@@ -25,20 +25,20 @@ public class Project {
     private String projectID;
 
     public Project(){
+//        request = new ApiRequestHandler();
         request = new ApiRequestHandler();
-        request = new ApiRequestHandler();
-        autUserName = PropertiesInfo.getInstance().getAutUserName();
-        autPassword = PropertiesInfo.getInstance().getAutPassword();
-
-        responseSpec = new ResponseSpecBuilder().expectStatusCode(200)
-              .expectContentType(ContentType.JSON)
-              .build();
-
-        request.setBasicAuth(autUserName, autPassword);
-
-        headers = new HashMap<String, String>();
-        headers.put("Content-Type", "application/json");
-        request.setHeaders(headers);
+//        autUserName = PropertiesInfo.getInstance().getAutUserName();
+//        autPassword = PropertiesInfo.getInstance().getAutPassword();
+//
+//        responseSpec = new ResponseSpecBuilder().expectStatusCode(200)
+//              .expectContentType(ContentType.JSON)
+//              .build();
+//
+//        request.setBasicAuth(autUserName, autPassword);
+//
+//        headers = new HashMap<String, String>();
+//        headers.put("Content-Type", "application/json");
+//        request.setHeaders(headers);
     }
     public Response createProject(String projectName) {
         request.setEndpoint("/projects.json");
