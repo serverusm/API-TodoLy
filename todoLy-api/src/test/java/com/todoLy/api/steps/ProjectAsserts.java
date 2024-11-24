@@ -46,6 +46,9 @@ public class ProjectAsserts {
 
     @Then("I validate that status code of response is {int}")
     public void iValidateThatStatusCodeOfResponseIs(int statusCode) {
-        Assert.assertEquals(context.getResponse().statusCode(), statusCode);
+        int actualStatusCode = context.getResponse().statusCode();
+//        Assert.assertEquals(context.getResponse().statusCode(), statusCode);
+        Assert.assertEquals(actualStatusCode, statusCode);
+        System.out.println(String.format("Status code is: %d", actualStatusCode));
     }
 }

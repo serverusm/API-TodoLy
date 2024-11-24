@@ -13,6 +13,7 @@ Feature: Todo-Ly CRUD-Projects
       { "Content":"SergioProject from cucumber", "Icon":5 }
       """
     Then I should see field "Content" with value "SergioProject from cucumber"
+    Then I validate that status code of response is 200
     And I validate createProject response schema
 
   @Project_002 @deleteProjects
